@@ -2,56 +2,59 @@ class Node:
   def __init__(self, data):
     self.data = data
     self.next = None
-#     self.top=None
 
-class Stack:
+
+class Queue:
   def __init__(self):
-    self.top = None
-    #self.top=None
-  def push(self, data) -> None:
+    self.head = None
+    self.last = None
+
+  def enqueue(self, data) -> None:
     # Write your code here
-    new=Node(data)
-    new.data=data
-    new.next=self.top
-    self.top=new
-  def pop(self) -> None:
+    if self.last==None:
+      self.last=Node(data)
+      self.last.next=None
+      self.last.data=data
+      self.head=self.last
+    else:
+      t=Node(data)
+      self.last.next=t
+      t.data=data
+      t.next=None
+      self.last=t
+  def dequeue(self) -> None:
     # Write your code here
-    if self.top==None:
+    t=self.head
+    if self.head==None:
       return None
-    else:
-      #temp=Node(data)
-      temp=self.top
-      self.top=self.top.next
-      temp.next=None
-      return temp
-      
-      
-  def status(self):
-    """
-    It prints all the elements of stack.
-    """
-    # Write your code here  
-    if self.top==None:
+    self.head = t.next
+    if(self.head == None):
+      self.last = None
+  def status(self) -> None:
+    # Write your code here
+    t=self.head
+    if self.head==None and self.last==None:
       print("None")
-    else:
-      #ptr=Node(data)
-      ptr=self.top
-      while(ptr!=None):
-        print(ptr.data,end="")
-        print("=>",end="")
-        ptr=ptr.next
-        if(ptr==None):
-          print("None")
+    while(t!=None):
+      print(t.data,end="")
+      print("=>",end="")
+      t=t.next
+      if t==None:
+        print("None")
+
+
+
+
 # Do not change the following code
-stack = Stack()
+queue = Queue()
 operations = []
 for specific_operation in input().split(','):
     operations.append(specific_operation.strip())
 input_data = input()
 data = input_data.split(',')
 for i in range(len(operations)):
-  if operations[i] == "push":
-    stack.push(int(data[i]))
-  elif operations[i] == "pop":
-    stack.pop()
-stack.status()
+  if operations[i] == "enqueue":
+    queue.enqueue(int(data[i]))
+  elif operations[i] == "dequeue":
+    queue.dequeue()
+queue.status()
